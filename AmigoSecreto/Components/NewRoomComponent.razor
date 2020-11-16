@@ -1,0 +1,120 @@
+﻿@inject IAmigoSecretoService _service
+@inject NavigationManager _navManager
+
+@if (_loading)
+{
+    <div class="progress" style="margin-top: 35vh;">
+        <div class="indeterminate"></div>
+    </div>
+}
+else
+{
+    <div>
+        <div class="row">
+            <div class="input-field col s12" style="margin-bottom: 60px;">
+                <input id="last_name" type="text" required pattern=".*\S+." class="validate" @bind="room.Title">
+                <label for="last_name">Nome da sala:</label>
+                <span class="helper-text" data-error="Este campo não pode estar vazio"></span>
+            </div>
+
+            <div class="input-field col s8">
+                <input id="name" type="text" @bind="personToAdd">
+                <label for="name">Adicionar participante:</label>
+            </div>
+
+            <div class="col s4">
+                <button style="margin-top: 20px" class="btn waves-effect waves-light" @onclick="AddPerson">
+                    Adicionar
+                    <i class="material-icons right">group_add</i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <ul class="collection with-header hoverable">
+        <li class="collection-header">
+            <h4>Participantes</h4>
+        </li>
+        @foreach (var person in room.People)
+        {
+            var local = person;
+            <li class="collection-item hoverable">
+                <div>
+                    @local.Name
+                    <a href="#!" class="secondary-content" @onclick="() => RemovePerson(local)"><i class="material-icons" style="color: red;">remove_circle_outline</i></a>
+                </div>
+            </li>
+        }
+        <li class="collection-item right-align">
+            <button class="btn waves-effect waves-light hoverable" @onclick="CreateClicked">
+                Criar sala
+                <i class="material-icons right">add_circle_outline</i>
+            </button>
+        </li>
+    </ul>
+
+    <Alert @ref="_alert" />
+}
+
+@code {
+
+    BasicRoom room = new BasicRoom() { People = new List<BasicPerson>() };
+
+    string personToAdd;
+
+    #region View
+
+    bool _loading;
+
+    Alert _alert;
+
+    #endregion
+
+    void AddPerson()
+    {
+        if (!IsValidToAdd(personToAdd)) return;
+
+        room.People.Add(new BasicPerson(personToAdd));
+
+        personToAdd = "";
+    }
+
+    bool IsValidToAdd(string name)
+    {
+        return !string.IsNullOrWhiteSpace(name) && room.People.FirstOrDefault(p => p.Name == name) == null;
+    }
+
+    void RemovePerson(BasicPerson person)
+    {
+        room.People.Remove(person);
+    }
+
+    bool ValidateInput()
+    {
+        _alert.Hide();
+
+        if (room.People.Count < 4)
+        {
+            _alert.Show("A sala tem que ter no mínimo 4 participantes!");
+            return false;
+        }
+        if (room.Title.IsNullOrWhite())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    async void CreateClicked()
+    {
+        if (!ValidateInput()) return;
+
+        _loading = true;
+        StateHasChanged();
+
+        int roomId = await _service.CreateRoom(room);
+        _navManager.NavigateTo($"/created/{roomId}", forceLoad: true);
+    }
+}

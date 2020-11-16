@@ -1,0 +1,30 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = Model.ShowRequestId ? "Erro" : "Não encontrado";
+}
+
+@if (Model.ShowRequestId)
+{
+    <h5 style="text-align: center; margin-bottom: 30px;">
+        <em style="color: rgb(255, 0, 0);">Ocorreu um erro</em>
+    </h5>
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+else
+{
+    <h4 style="text-align: center; margin-bottom: 30px; color: rgb(98, 0, 0);">
+        A página que você está tentando acessar não existe! Possivelmente, o <em style="color: rgb(25, 0, 255);">id</em> de seu Amigo Secreto está incorreto.
+    </h4>
+
+    <h5 style="text-align: center; margin-bottom: 30px;">
+        Use o botão abaixo para voltar à página inicial.
+    </h5>
+
+    <div class="center-align">
+        <a class="btn-large waves-effect waves-ligh hoverable" style="margin-top: 150px;" asp-controller="Site" asp-action="Index">
+            Voltar à página inicial
+        </a>
+    </div>
+}

@@ -1,0 +1,32 @@
+﻿@model CreatedRoomViewModel
+@{
+    ViewData["Title"] = $"Sala Criada - {Model.Name}";
+}
+
+<h5 style="text-align: center; margin-bottom: 30px;">
+    <em>Sala criada</em>
+</h5>
+<p>A sala <strong>@Model.Name</strong> foi criada com sucesso!</p>
+<p style="text-align: center; margin-bottom: 30px;">
+    <em>Aqui está o link de acesso para o amigo secreto, envie-o para o restante dos participantes para que eles também possam entrar na brincadeira.</em>
+</p>
+
+
+<ul class="collection with-header hoverable" style="font-size: 24px">
+    <li class="collection-header">
+        <div>
+            <a href="@Model.Url">@Model.Url</a>
+            <a href="#!" onclick="copyToClipboard('@Model.Url')" class="secondary-content">
+                <i class="small material-icons" style="color: rgb(0, 0, 0);">content_copy</i>
+            </a>
+        </div>
+    </li>
+</ul>
+
+@section Scripts{
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+        };
+    </script>
+}

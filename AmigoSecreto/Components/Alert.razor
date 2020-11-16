@@ -1,0 +1,62 @@
+﻿
+<div class="materialert error scale-transition scale-out @_scaleClass">
+
+    <i class="material-icons">error_outline</i>
+
+    @Message
+
+    @if (ShowCloseBtn)
+    {
+        <button type="button" class="close-alert" @onclick="Hide">×</button>
+    }
+
+</div>
+
+@code {
+
+    [Parameter] public string Message { get; set; } = "";
+
+    [Parameter] public bool ShowCloseBtn { get; set; } = true;
+
+    string _scaleClass;
+
+    public bool IsActive { get; private set; }
+
+    public void Show()
+    {
+        _scaleClass = "scale-in hoverable";
+        IsActive = true;
+        StateHasChanged();
+    }
+
+    public void Show(string newMessage)
+    {
+        Message = newMessage;
+        Show();
+    }
+
+    public void Show(bool showCloseBtn)
+    {
+        ShowCloseBtn = showCloseBtn;
+        Show();
+    }
+
+    public void Show(string newMessage, bool showCloseBtn)
+    {
+        ShowCloseBtn = showCloseBtn;
+        Show(newMessage);
+    }
+
+    public void Hide()
+    {
+        _scaleClass = "";
+        IsActive = false;
+        StateHasChanged();
+    }
+
+    public void Invert()
+    {
+        if (IsActive) Hide();
+        else Show();
+    }
+}

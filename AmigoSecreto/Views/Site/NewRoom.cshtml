@@ -1,0 +1,15 @@
+﻿@using AmigoSecreto.Components
+
+@{
+    ViewData["Title"] = "Criar Amigo Secreto";
+}
+
+<h5 style="text-align: center; margin-bottom: 30px;">
+    <em>Criar Sala</em>
+</h5>
+
+<component type="typeof(NewRoomComponent)" render-mode="ServerPrerendered" />
+
+@section Scripts{ 
+    <script src="_framework/blazor.server.js"></script>
+}

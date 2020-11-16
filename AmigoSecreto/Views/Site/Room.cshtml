@@ -1,0 +1,114 @@
+﻿@using AmigoSecreto.Components;
+@model RoomViewModel
+@{
+    var room = Model.Room;
+    int? AlreadyRevealed = Model.AlreadyRevealed;
+    ViewData["Title"] = $"{room.Title} - Amigo Secreto";
+}
+
+<h5 style="text-align: center; margin-bottom: 30px;">
+    <em>Amigo Secreto - @room.Title</em>
+</h5>
+<h5 style="text-align: center; margin-bottom: 30px; color: rgb(255, 68, 68);">
+    <em>Aviso</em>: abra apenas o envelope que pertence ao seu nome. Ele revelará quem é seu
+    amigo secreto.
+</h5>
+
+<ul class="collapsible hoverable">
+    <li>
+        <div class="collapsible-header" id="abba">
+            <h4 style="color: #452050;">Participantes</h4>
+        </div>
+    </li>
+
+    @foreach (var person in room.People)
+    {
+        @if (person.Id == AlreadyRevealed)
+        {
+            <li class="hoverable active" id="@AlreadyRevealed">
+                <div class="collapsible-header">
+                    <i class="small material-icons" style="color: #009688;">email</i>
+                    @person
+                </div>
+                <div class="collapsible-body">
+                    <div class="row">
+                        <div class="input-field col s12" style="margin-bottom: 10px;">
+                            <span>
+                                Você é mesmo <em>@person</em>? Ao clicar em <em>Confirmar</em>, seu amigo secreto
+                                será revelado e essa ação <strong>não</strong> poderá ser feita novamente!
+                            </span>
+                        </div>
+                        <div class="input-field col s6 m4 l3">
+                            <button class="btn waves-effect waves-light hoverable red" onclick="document.getElementById('abba').click()">
+                                Cancelar
+                                <i class="material-icons right">undo</i>
+                            </button>
+                        </div>
+                        <div class="input-field col s6 m4 l3">
+                            <a class="btn waves-effect waves-light hoverable" asp-controller="Site" asp-action="SecretFriend" asp-route-roomId="@room.Id" asp-route-personId="@person.Id">
+                                Confirmar
+                                <i class="material-icons right">done</i>
+                            </a>
+                        </div>
+                        <div class="col s12">
+                            <div class="materialert error scale-transition hoverable">
+                                <i class="material-icons">error_outline</i>
+                                Este envelope já foi aberto por alguém. Se não foi você (@person), fale com os outros participantes do amigo secreto.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+        else
+        {
+            <li class="hoverable">
+                <div class="collapsible-header">
+                    <i class="small material-icons" style="color: #009688;">email</i>
+                    @person
+                </div>
+                <div class="collapsible-body">
+                    <div class="row">
+                        <div class="input-field col s12" style="margin-bottom: 10px;">
+                            <span>
+                                Você é mesmo <em>@person</em>? Ao clicar em <em>Confirmar</em>, seu amigo secreto
+                                será revelado e essa ação <strong>não</strong> poderá ser feita novamente!
+                            </span>
+                        </div>
+                        <div class="input-field col s6 m4 l3">
+                            <button class="btn waves-effect waves-light hoverable red" onclick="document.getElementById('abba').click()">
+                                Cancelar
+                                <i class="material-icons right">undo</i>
+                            </button>
+                        </div>
+                        <div class="input-field col s6 m4 l3">
+                            <a class="btn waves-effect waves-light hoverable" asp-controller="Site" asp-action="SecretFriend" asp-route-roomId="@room.Id" asp-route-personId="@person.Id">
+                                Confirmar
+                                <i class="material-icons right">done</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    }
+
+</ul>
+
+@section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems, {});
+        });
+    </script>
+
+    @if (AlreadyRevealed != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('@AlreadyRevealed').scrollIntoView();
+            });
+        </script>
+    }
+}
