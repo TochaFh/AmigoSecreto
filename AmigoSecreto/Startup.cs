@@ -27,12 +27,7 @@ namespace AmigoSecreto
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-            
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
