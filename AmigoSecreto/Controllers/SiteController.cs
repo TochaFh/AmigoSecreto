@@ -32,12 +32,6 @@ namespace AmigoSecreto.Controllers
             return View();
         }
 
-        [Route("Privacy")]
-        public IActionResult Privacy(string msg)
-        {
-            return View(msg as object);
-        }
-
         [Route("Created/{id:int}")]
         public async Task<IActionResult> CreatedRoom(int id)
         {
