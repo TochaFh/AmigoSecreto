@@ -114,7 +114,7 @@ else
         _loading = true;
         StateHasChanged();
 
-        int roomId = await _service.CreateRoom(room);
+        string roomId = await _service.CreateRoom(room);
         _navManager.NavigateTo($"/created/{roomId}", forceLoad: true);
     }
 }

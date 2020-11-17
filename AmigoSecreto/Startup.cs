@@ -1,10 +1,11 @@
 using AmigoSecreto.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
+using System;
 
 namespace AmigoSecreto
 {
@@ -22,7 +23,11 @@ namespace AmigoSecreto
             services.AddControllersWithViews();
             services.AddServerSideBlazor();
 
-            services.AddSingleton<IRoomsRepository>(_ => new RoomsRepository());
+            if (Configuration["DB_CONNECTION"].IsNullOrWhite())
+                throw new Exception("Erro ao acessar variável de ambiente: 'DB_CONNECTION'");
+
+            services.AddSingleton<IMongoClient>(_ => new MongoClient(Configuration["DB_CONNECTION"]));
+            services.AddSingleton<IRoomsRepository, MongoRoomsRepository>();
             services.AddScoped<IAmigoSecretoService, AmigoSecretoService>();
         }
 

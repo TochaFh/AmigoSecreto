@@ -17,24 +17,24 @@ namespace AmigoSecreto.Services
 
         #region IAmigoSecretoService
 
-        public async Task<int> CreateRoom(BasicRoom baseData)
+        public async Task<string> CreateRoom(BasicRoom baseData)
         {
-            if (baseData?.Title.IsNullOrWhite() ?? true || baseData.People?.Count < 4) return 0;
+            if (baseData?.Title.IsNullOrWhite() ?? true || baseData.People?.Count < 4) return "error";
 
             Room room = new Room(baseData);
             room.Sortear();
 
             await _repo.AddRoomAsync(room);
-            return room.Id;
+            return room.Id.ToString();
         }
 
-        public async Task<BasicRoom> GetBasicRoom(int id)
+        public async Task<BasicRoom> GetBasicRoom(string id)
         {
             Room room = await _repo.GetRoomAsync(id);
             return room?.ToBasic();
         }
 
-        public async Task<SecretFriendResult> GetSecretFriend(int roomId, int personId)
+        public async Task<SecretFriendResult> GetSecretFriend(string roomId, int personId)
         {
             Room room = await _repo.GetRoomAsync(roomId);
 
@@ -52,7 +52,7 @@ namespace AmigoSecreto.Services
 
             person.SecretFriendWasRevealed = true;
 
-            await _repo.SaveRoomAsync(room);
+            await _repo.SaveSecretRevealedAsync(roomId, personId);
 
             return new(Sfr.Success) { Person = person.ToBasic(), SecretFriend = secret.Name };
         }

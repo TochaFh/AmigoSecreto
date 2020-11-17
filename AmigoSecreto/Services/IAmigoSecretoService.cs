@@ -5,10 +5,10 @@ namespace AmigoSecreto.Services
 {
     public interface IAmigoSecretoService
     {
-        Task<int> CreateRoom(BasicRoom baseData);
+        Task<string> CreateRoom(BasicRoom baseData);
 
-        Task<BasicRoom> GetBasicRoom(int id);
+        Task<BasicRoom> GetBasicRoom(string id);
 
-        Task<SecretFriendResult> GetSecretFriend(int roomId, int personId);
+        Task<SecretFriendResult> GetSecretFriend(string roomId, int personId);
     }
 }

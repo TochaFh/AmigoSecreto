@@ -1,4 +1,6 @@
 ﻿using AmigoSecreto.Services;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +10,12 @@ namespace AmigoSecreto.Models
 {
     public class Room
     {
-        public int Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
 
         public string Title { get; set; }
 
-        public List<Person> People { get; set; }
+        public Person[] People { get; set; }
 
         #region Constructors
 
@@ -24,7 +27,7 @@ namespace AmigoSecreto.Models
         public Room(BasicRoom baseData)
         {
             Title = baseData.Title;
-            People = baseData.People?.Select((basicPerson, i) => basicPerson.ToPerson(id: i)).ToList();
+            People = baseData.People?.Select((basicPerson, i) => basicPerson.ToPerson(id: i)).ToArray();
         }
 
         #endregion
@@ -33,14 +36,14 @@ namespace AmigoSecreto.Models
         {
             int[] shuffled = People.Select(p => p.Id).Shuffle().ToArray();
 
-            for (int i = 0; i < People.Count; i++)
+            for (int i = 0; i < People.Length; i++)
             {
                 var personId = People[i].Id;
                 int secret = shuffled[i];
 
                 if (personId == secret)
                 {
-                    int next = NextInt.Next(i, People.Count);
+                    int next = NextInt.Next(i, People.Length);
 
                     shuffled[i] = shuffled[next];
                     shuffled[next] = secret;
@@ -49,7 +52,7 @@ namespace AmigoSecreto.Models
                 }
             }
 
-            for (int i = 0; i < People.Count; i++)
+            for (int i = 0; i < People.Length; i++)
             {
                 People[i].SecretFriendId = shuffled[i];
             }
@@ -78,7 +81,7 @@ namespace AmigoSecreto.Models
     {
         public string Title { get; set; }
 
-        public int Id { get; }
+        public string Id { get; }
 
         public List<BasicPerson> People { get; set; }
 
@@ -98,7 +101,7 @@ namespace AmigoSecreto.Models
         {
             Title = room.Title;
             People = room.People?.Select(p => p.ToBasic()).ToList();
-            Id = room.Id;
+            Id = room.Id.ToString();
         }
 
         #endregion

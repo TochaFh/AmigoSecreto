@@ -13,14 +13,14 @@ namespace AmigoSecreto.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Room GetRoom(int id);
+        public Room GetRoom(string id);
 
         /// <summary>
         /// (GET) - Retorna a room do id especificado ou null caso não exita.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<Room> GetRoomAsync(int id);
+        public Task<Room> GetRoomAsync(string id);
 
         /// <summary>
         /// (POST) - Gera um novo id único para a room e adiciona ao repositório.
@@ -34,7 +34,7 @@ namespace AmigoSecreto.Services
         /// <param name="room"></param>
         public Task AddRoomAsync(Room room);
 
-        /// <summary>
+        /*/// <summary>
         /// (PUT) - Salva as mudanças dessa room para uma room já existente no repositório (pelo id).
         /// </summary>
         /// <param name="room"></param>
@@ -44,61 +44,32 @@ namespace AmigoSecreto.Services
         /// (PUT) - Salva as mudanças dessa room para uma room já existente no repositório (pelo id).
         /// </summary>
         /// <param name="room"></param>
-        public Task SaveRoomAsync(Room room);
+        public Task SaveRoomAsync(Room room);*/
 
         /// <summary>
         /// (DELETE) - Deleta uma room pelo id do repositório (definitivamente).
         /// </summary>
         /// <param name="id"></param>
-        public void DeleteRoom(int id);
+        public void DeleteRoom(string id);
 
         /// <summary>
         /// (DELETE) - Deleta uma room pelo id do repositório (definitivamente).
         /// </summary>
         /// <param name="id"></param>
-        public Task DeleteRoomAsync(int id);
-    }
+        public Task DeleteRoomAsync(string id);
 
-    public struct Useless : IRoomsRepository
-    {
-        public void AddRoom(Room room)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// (PUT) - Salva como true o valor do SecretFriendWasRevealed da pessoa (id) de um room (id).
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="personId"></param>
+        public void SaveSecretRevealed(string roomId, int personId);
 
-        public Task AddRoomAsync(Room room)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteRoom(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteRoomAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Room GetRoom(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Room> GetRoomAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveRoom(Room room)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveRoomAsync(Room room)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// (PUT) - Salva como true o valor do SecretFriendWasRevealed da pessoa (id) de um room (id).
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="personId"></param>
+        public Task SaveSecretRevealedAsync(string roomId, int personId);
     }
 }

@@ -32,8 +32,8 @@ namespace AmigoSecreto.Controllers
             return View();
         }
 
-        [Route("Created/{id:int}")]
-        public async Task<IActionResult> CreatedRoom(int id)
+        [Route("Created/{id}")]
+        public async Task<IActionResult> CreatedRoom(string id)
         {
             BasicRoom room = await _service.GetBasicRoom(id);
 
@@ -47,8 +47,8 @@ namespace AmigoSecreto.Controllers
             return View(new CreatedRoomViewModel(roomUrl, room.Title));
         }
 
-        [Route("Room/{id:int}/{errorId:int?}", Name = "room")]
-        public async Task<IActionResult> Room(int id, int? errorId = null)
+        [Route("Room/{id}/{errorId:int?}", Name = "room")]
+        public async Task<IActionResult> Room(string id, int? errorId = null)
         {
             BasicRoom room = await _service.GetBasicRoom(id);
 
@@ -60,8 +60,8 @@ namespace AmigoSecreto.Controllers
             return View(new RoomViewModel(room, errorId));
         }
 
-        [Route("SecretFriend/{roomId:int}/{personId:int}")]
-        public async Task<IActionResult> SecretFriend(int roomId, int personId)
+        [Route("SecretFriend/{roomId}/{personId:int}")]
+        public async Task<IActionResult> SecretFriend(string roomId, int personId)
         {
             var secret = await _service.GetSecretFriend(roomId, personId);
 
