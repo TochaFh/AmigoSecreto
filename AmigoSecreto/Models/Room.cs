@@ -17,11 +17,13 @@ namespace AmigoSecreto.Models
 
         public Person[] People { get; set; }
 
+        public DateTime CreationDate { get; set; }
+
         #region Constructors
 
         public Room()
         {
-
+            
         }
 
         public Room(BasicRoom baseData)
@@ -105,9 +107,7 @@ namespace AmigoSecreto.Models
         }
 
         #endregion
-
-        public Room ToRoom() => new Room(this);
-
+        
         public override string ToString() => Title;
     }
 }

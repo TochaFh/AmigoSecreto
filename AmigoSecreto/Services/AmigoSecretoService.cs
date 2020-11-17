@@ -21,7 +21,7 @@ namespace AmigoSecreto.Services
         {
             if (baseData?.Title.IsNullOrWhite() ?? true || baseData.People?.Count < 4) return "error";
 
-            Room room = new Room(baseData);
+            Room room = new Room(baseData) { CreationDate = DateTime.UtcNow };
             room.Sortear();
 
             await _repo.AddRoomAsync(room);
