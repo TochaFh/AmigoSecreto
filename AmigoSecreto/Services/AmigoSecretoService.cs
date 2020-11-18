@@ -50,8 +50,6 @@ namespace AmigoSecreto.Services
 
             if (secret == null) return new(Sfr.NotFound) { Person = person.ToBasic() };
 
-            person.SecretFriendWasRevealed = true;
-
             await _repo.SaveSecretRevealedAsync(roomId, personId);
 
             return new(Sfr.Success) { Person = person.ToBasic(), SecretFriend = secret.Name };

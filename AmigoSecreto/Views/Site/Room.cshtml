@@ -1,5 +1,4 @@
-﻿@using AmigoSecreto.Components;
-@model RoomViewModel
+﻿@model RoomViewModel
 @{
     var room = Model.Room;
     int? AlreadyRevealed = Model.AlreadyRevealed;
@@ -51,7 +50,7 @@
                             </a>
                         </div>
                         <div class="col s12">
-                            <div class="materialert error scale-transition hoverable">
+                            <div class="materialert error hoverable">
                                 <i class="material-icons">error_outline</i>
                                 Este envelope já foi aberto por alguém. Se não foi você (@person), fale com os outros participantes do amigo secreto.
                             </div>

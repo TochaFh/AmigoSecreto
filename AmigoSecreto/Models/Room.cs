@@ -29,7 +29,7 @@ namespace AmigoSecreto.Models
         public Room(BasicRoom baseData)
         {
             Title = baseData.Title;
-            People = baseData.People?.Select((basicPerson, i) => basicPerson.ToPerson(id: i)).OrderBy(p => p.Name).ToArray();
+            People = baseData.People?.OrderBy(p => p.Name).Select((basicPerson, i) => basicPerson.ToPerson(id: i)).ToArray();
         }
 
         #endregion
