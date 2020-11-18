@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using System;
+using FastConsole;
 
 namespace AmigoSecreto
 {
@@ -23,11 +24,9 @@ namespace AmigoSecreto
             services.AddControllersWithViews();
             services.AddServerSideBlazor();
 
-            if (Configuration["DB_CONNECTION"].IsNullOrWhite())
-                throw new Exception("Erro ao acessar variável de ambiente: 'DB_CONNECTION'");
-
-            services.AddSingleton<IMongoClient>(_ => new MongoClient(Configuration["DB_CONNECTION"]));
-            services.AddSingleton<IRoomsRepository, MongoRoomsRepository>();
+            //services.AddSingleton<IMongoClient>(_ => new MongoClient(Configuration.Value("DB_CONNECTION")));
+            services.AddSingleton<MongoConnectionHelper>();
+            services.AddScoped<IRoomsRepository, MongoRoomsRepository>();
             services.AddScoped<IAmigoSecretoService, AmigoSecretoService>();
         }
 

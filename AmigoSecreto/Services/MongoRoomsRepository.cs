@@ -1,7 +1,6 @@
 ﻿using AmigoSecreto.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using FastConsole;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,12 +10,17 @@ namespace AmigoSecreto.Services
     {
         private IMongoCollection<Room> _collection;
 
-        public MongoRoomsRepository(IMongoClient client)
+        /*public MongoRoomsRepository(IMongoClient client, IConfiguration configuration)
         {
             var db = client.GetDatabase("MainData");
-            _collection = db.GetCollection<Room>("Rooms");
+            _collection = db.GetCollection<Room>(configuration.Value("RoomsCollectionName"));
 
-            Out.Println("Conexão aberta com collection Rooms de MainData.", FColor.Cyan);
+            Out.Println($"Conexão bem sucedida com collection {_collection.CollectionNamespace}.", FColor.Cyan);
+        }*/
+
+        public MongoRoomsRepository(MongoConnectionHelper mongo)
+        {
+            _collection = mongo.GetRoomsCollection();
         }
 
         public void AddRoom(Room room)

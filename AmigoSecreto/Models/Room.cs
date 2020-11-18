@@ -15,9 +15,9 @@ namespace AmigoSecreto.Models
 
         public string Title { get; set; }
 
-        public Person[] People { get; set; }
-
         public DateTime CreationDate { get; set; }
+
+        public Person[] People { get; set; }
 
         #region Constructors
 
@@ -29,7 +29,7 @@ namespace AmigoSecreto.Models
         public Room(BasicRoom baseData)
         {
             Title = baseData.Title;
-            People = baseData.People?.Select((basicPerson, i) => basicPerson.ToPerson(id: i)).ToArray();
+            People = baseData.People?.Select((basicPerson, i) => basicPerson.ToPerson(id: i)).OrderBy(p => p.Name).ToArray();
         }
 
         #endregion
@@ -107,7 +107,7 @@ namespace AmigoSecreto.Models
         }
 
         #endregion
-        
+
         public override string ToString() => Title;
     }
 }
