@@ -39,6 +39,8 @@
 
         public string Name { get; set; }
 
+        public bool SecretFriendWasRevealed { get; }
+
         public BasicPerson(string name)
         {
             Name = name;
@@ -48,6 +50,7 @@
         {
             Id = person.Id;
             Name = person.Name;
+            SecretFriendWasRevealed = person.SecretFriendWasRevealed;
         }
 
         public Person ToPerson(int id) => new Person(id, Name);
